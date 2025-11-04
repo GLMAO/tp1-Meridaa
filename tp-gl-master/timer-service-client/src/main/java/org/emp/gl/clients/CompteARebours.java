@@ -1,36 +1,36 @@
 package org.emp.gl.clients;
 
+import java.beans.PropertyChangeEvent;
 import org.emp.gl.timer.service.TimerChangeListener;
 import org.emp.gl.timer.service.TimerService;
 
-import java.util.Random;
-
 public class CompteARebours implements TimerChangeListener {
 
-    private final TimerService timerService;
-    private int compteur;
     private final String nom;
+    private int valeur;
+    private final TimerService timerService;
 
-    public CompteARebours(String nom, int compteur, TimerService timerService) {
+    public CompteARebours(String nom, int valeur, TimerService timerService) {
         this.nom = nom;
-        this.compteur = compteur;
+        this.valeur = valeur;
         this.timerService = timerService;
 
-        // s'inscrire comme observateur
+        // inscription comme observateur
         this.timerService.addTimeChangeListener(this);
     }
 
     @Override
-    public void propertyChange(String prop, Object oldValue, Object newValue) {
-        if (TimerChangeListener.SECONDE_PROP.equals(prop)) {
-            if (compteur > 0) {
-                System.out.printf("[%s] Compte à rebours : %d%n", nom, compteur);
-                compteur--;
+    public void propertyChange(PropertyChangeEvent evt) {
+        String prop = evt.getPropertyName();
+
+        if (prop.equals(TimerChangeListener.SECONDE_PROP)) {
+            valeur--;
+            if (valeur >= 0) {
+                System.out.println("[" + nom + "] Compte à rebours : " + valeur);
             }
-            if (compteur == 0) {
-                // se désinscrire automatiquement
-                timerService.removeTimeChangeListener(this);
-                System.out.printf("[%s] Terminé !\n", nom);
+            if (valeur == 0) {
+                System.out.println("[" + nom + "] Terminé !");
+                timerService.removeTimeChangeListener(this); // se désinscrire
             }
         }
     }
