@@ -1,5 +1,6 @@
 package org.emp.gl.clients;
 
+import java.beans.PropertyChangeEvent;
 import org.emp.gl.timer.service.TimerChangeListener;
 import org.emp.gl.timer.service.TimerService;
 
@@ -17,14 +18,12 @@ public class Horloge implements TimerChangeListener {
     }
 
     @Override
-    public void propertyChange(String prop, Object oldValue, Object newValue) {
-        // réagir uniquement aux changements de secondes
-        if (SECONDE_PROP.equals(prop)) {
-            System.out.printf("[%s] Heure : %02d:%02d:%02d%n",
-                    nom,
-                    timerService.getHeures(),
-                    timerService.getMinutes(),
-                    timerService.getSecondes());
+    public void propertyChange(PropertyChangeEvent evt) {
+        String prop = evt.getPropertyName();
+        int newValue = (int) evt.getNewValue();
+
+        if(prop.equals(TimerChangeListener.SECONDE_PROP)) {
+            // mettre à jour l'affichage de la seconde ou décrémenter le compteur
         }
     }
 }
