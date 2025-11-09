@@ -1,12 +1,12 @@
-package org.emp.gl.clients;
+package org.emp.gl;
 
-import org.emp.gl.timer.service.TimerService;
 import org.emp.gl.time.service.impl.DummyTimeServiceImpl;
-import javax.swing.SwingUtilities;
+import org.emp.gl.timer.service.TimerService;
+import org.emp.gl.clients.HorlogeGraphique;
 
 public class Main {
     public static void main(String[] args) {
         TimerService timerService = new DummyTimeServiceImpl();
-        SwingUtilities.invokeLater(() -> new HorlogeGUI(timerService));
+        new HorlogeGraphique(timerService);
     }
 }
